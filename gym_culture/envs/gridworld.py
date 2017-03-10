@@ -106,5 +106,6 @@ class GridWorldEnv(Env):
         agent.cell = cell
         
     def remove_agent(self, agent):
-        pass
+        self.agents.remove(agent)
+        agent.cell.agents.remove(agent)
     

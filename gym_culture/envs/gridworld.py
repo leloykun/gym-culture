@@ -77,7 +77,10 @@ class GridWorldEnv(Env):
             line = lines[j]
             for i in range(min(fw, len(line))):
                 self.grid[starty + j][startx + i].load(line[i])
-        
+    
+    def make_display(self):
+        pass
+    
     def get_cell(self, x, y):
         return self.grid[y][x]
         

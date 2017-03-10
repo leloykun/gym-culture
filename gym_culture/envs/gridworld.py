@@ -1,10 +1,11 @@
 import os
+import random
+from itertools import count
 
 import gym
 from gym import Env, spaces
 from gym_culture.envs.cell import Cell
 
-from itertools import count
 
 def genID():
     for i in count(0):

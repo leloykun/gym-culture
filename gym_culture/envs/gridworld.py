@@ -93,8 +93,13 @@ class GridWorldEnv(Env):
                 return cell
     
     def add_agent(self, agent, cell=None):
+        if cell is None:
+            cell = self.pick_randon_cell()
         
-        pass
+        self.agents.append(agent)
+        agent.env = self
+        agent.id = next(id)
+        agent.cell = cell
         
     def remove_agent(self, agent):
         pass

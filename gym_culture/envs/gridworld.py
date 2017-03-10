@@ -90,10 +90,10 @@ class GridWorldEnv(Env):
     
     def pick_randon_cell(self):
         while True:
-            x = random.randrange(world.width)
-            y = random.randrange(world.height)
+            x = random.randrange(self.width)
+            y = random.randrange(self.height)
             cell = self.get_cell(x, y)
-            if not cell.wall and len(cell.agents) < res_count:
+            if not cell.wall and len(cell.agents) < self.res_count:
                 return cell
     
     def add_agent(self, agent, cell=None):
@@ -102,7 +102,7 @@ class GridWorldEnv(Env):
         
         self.agents.append(agent)
         agent.env = self
-        agent.id = next(id)
+        agent.id = next(self.id)
         agent.cell = cell
         
     def remove_agent(self, agent):

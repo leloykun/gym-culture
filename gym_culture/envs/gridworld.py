@@ -40,6 +40,8 @@ class GridWorldEnv(Env):
     def _reset(self):
         self.grid = [[Cell(self, x, y) for x in range(self.width)]
                      for y in range(self.height)]
+        self.dictBackup = [[{} for x in range(self.width)]
+                           for y in range(self.height)]
         self.agents = []
         self.age = 0
     

@@ -112,7 +112,6 @@ class PygameDisplay:
         if not self.activated:
             return
         self.title = title
-        title += ' %s' % makeTitle(self.world)
         if pygame.display.get_caption()[0] != title:
             pygame.display.set_caption(title)
 
@@ -149,3 +148,16 @@ class PygameDisplay:
         if filename is None:
             filename = 'animations/test/' + '%03d.png' % (self.world.age + 1)
         pygame.image.save(self.screen, filename)
+    
+        text = 'age: %d' % self.world.age
+        extra = []
+        if self.paused:
+            extra.append('paused')
+        if self.updateEvery != 1:
+            extra.append('skip=%d' % self.updateEvery)
+        if self.delay > 0:
+            extra.append('delay=%d' % self.delay)
+
+        if len(extra) > 0:
+            text += ' [%s]' % ', '.join(extra)
+        return text             

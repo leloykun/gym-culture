@@ -5,7 +5,7 @@ from itertools import count
 import gym
 from gym import Env, spaces
 from gym_culture.envs.cell import Cell
-
+from gym_culture.envs.display import PygameDisplay
 
 def genID():
     for i in count(0):
@@ -26,6 +26,7 @@ class GridWorldEnv(Env):
         self.to_color_cells = to_color_cells
         
         self.id = genID()
+        self.display = self.__make_display()
 
         with open(self.map) as f:
             lines = f.readlines()
@@ -49,9 +50,6 @@ class GridWorldEnv(Env):
     def _render(self, cell_size=30):
         print("yolo!")
         #  use pygame here
-    
-    def __getColor(self, obj):
-        pass
     
     def __load(self, map):
         with open(map) as f:
@@ -79,8 +77,10 @@ class GridWorldEnv(Env):
             for i in range(min(fw, len(line))):
                 self.grid[starty + j][startx + i].load(line[i])
     
-    def make_display(self):
-        pass
+    def __make_display(self):
+        d = PygameDisplay()
+        d.world = self
+        return d
     
     def get_cell(self, x, y):
         return self.grid[y][x]

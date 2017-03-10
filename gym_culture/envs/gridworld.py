@@ -38,7 +38,7 @@ class GridWorldEnv(Env):
         self.__load(self.map)
         
     def _reset(self):
-        self.grid = [[Cell(self, x, y) for x in range(self.width)]
+        self.grid = [[self.__make_cell(x, y) for x in range(self.width)]
                      for y in range(self.height)]
         self.dictBackup = [[{} for x in range(self.width)]
                            for y in range(self.height)]
@@ -86,6 +86,16 @@ class GridWorldEnv(Env):
         d = PygameDisplay()
         d.world = self
         return d
+    
+    def __make_cell(self, x, y):
+        c = Cell()
+        c.x = x
+        c.y = y
+        c.resources = [self.max_res_amount 
+                       for _ in range(self.res_count)]
+        c.world = self
+        c.agents = []
+        return c
     
     def get_cell(self, x, y):
         return self.grid[y][x]

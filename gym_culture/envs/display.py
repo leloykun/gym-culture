@@ -1,3 +1,6 @@
+import sys
+import time
+import collections
 import pygame
 
 from gym_culture.envs.widgets.wdg_specs import WdgSpecs
@@ -21,7 +24,8 @@ class PygameDisplay:
                 or PygameDisplay.screen.get_height() != h:
             PygameDisplay.screen = pygame.display.set_mode((w, h), pygame.RESIZABLE, 32)
         self.activated = True
-        self.defaultColour = self.getColour(self.world.grid[0][0].__class__())
+        self.defaultColour = (255, 255, 255)
+        #self.defaultColour = self.getColour(self.world.grid[0][0].__class__())
         self.redraw()
 
     def redraw(self):
@@ -141,7 +145,7 @@ class PygameDisplay:
             filename = 'animations/test/' + '%03d.png' % (self.world.age + 1)
         pygame.image.save(self.screen, filename)
     
-    def make_title():
+    def make_title(self):
         text = 'age: %d' % self.world.age
         extra = []
         if self.paused:

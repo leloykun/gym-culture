@@ -1,25 +1,18 @@
 class Cell():
-    def __init__(self, world, x, y):
-        self.world = world
-        self.x = x
-        self.y = y
-        
-        self.wall = False
-        self.agents = []
-        self.resources = [self.world.max_res_amount 
-                          for _ in range(self.world.res_count)]
+    wall = False
+    #  placeholder
+    resources = [100] * 5
     
     def color(self):
         if self.wall:
             return 'black'
-        elif this.to_color_cells:
+        else:
             ratio = sum(self.resources) / (self.world.max_res_amount * self.world.res_count)
             gradient = hex(int(ratio * 64) + 191)[2:]
             if len(gradient) < 2:
                 gradient = '0' + gradient
             return '#ffff' + gradient
-        else:
-            return '#eeeff7'
+            #      '#eeeff7'
     
     def load(self, data):
         if data == 'X':

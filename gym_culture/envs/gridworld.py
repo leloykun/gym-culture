@@ -28,6 +28,9 @@ class GridWorldEnv(Env):
         self.id = genID()
         self.display = self.__make_display()
 
+        self.display.activate(size=30)
+        self.display.delay = 1
+        
         with open(self.map) as f:
             lines = f.readlines()
         self.height = len(lines)

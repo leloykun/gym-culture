@@ -25,16 +25,16 @@ class GridWorldEnv(Env):
         self.def_cell_growth_rate = [def_growth_rate] * self.res_count
         self.to_color_cells = to_color_cells
         
+        with open(self.map) as f:
+            lines = f.readlines()
+        self.height = len(lines)
+        self.width = max(len(line.rstrip()) for line in lines)
+        
         self.id = genID()
         self.display = self.__make_display()
 
         self.display.activate(size=30)
         self.display.delay = 1
-        
-        with open(self.map) as f:
-            lines = f.readlines()
-        self.height = len(lines)
-        self.width = max(len(line.rstrip()) for line in lines)
         
         self._reset()
         

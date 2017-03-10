@@ -51,7 +51,7 @@ class GridWorldEnv(Env):
     
     def _render(self, cell_size=30):
         print("yolo!")
-        #  use pygame here
+        self.display.update()
     
     def __load(self, map):
         with open(map) as f:

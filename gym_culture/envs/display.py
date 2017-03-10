@@ -16,8 +16,6 @@ class PygameDisplay:
         pygame.init()
         w = self.world.width * size
         h = self.world.height * size
-        if self.world.directions == 6:
-            w += size // 2
         if PygameDisplay.screen is None \
                 or PygameDisplay.screen.get_width() != w \
                 or PygameDisplay.screen.get_height() != h:
@@ -30,17 +28,13 @@ class PygameDisplay:
         if not self.activated:
             return
         self.screen.fill(self.defaultColour)
-        hexgrid = self.world.directions == 6
         self.offsety = (
             self.screen.get_height() - self.world.height * self.size) // 2
         self.offsetx = (
             self.screen.get_width() - self.world.width * self.size) // 2
         sy = self.offsety
-        odd = False
         for row in self.world.grid:
             sx = self.offsetx
-            if hexgrid and odd:
-                sx += self.size // 2
             for cell in row:
                 if len(cell.agents) > 0:
                     c = self.getColour(cell.agents[0])
@@ -52,7 +46,6 @@ class PygameDisplay:
                     except TypeError:
                         print(('Error: invalid colour:', c))
                 sx += self.size
-            odd = not odd
             sy += self.size
 
     def redrawCell(self, x, y):
@@ -60,8 +53,6 @@ class PygameDisplay:
             return
         sx = x * self.size + self.offsetx
         sy = y * self.size + self.offsety
-        if y % 2 == 1 and self.world.directions == 6:
-            sx += self.size // 2
 
         cell = self.world.grid[y][x]
         if len(cell.agents) > 0:

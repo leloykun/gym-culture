@@ -1,7 +1,7 @@
 import pygame
 
 from gym_culture.envs.widgets.wdg_specs import WdgSpecs
-from gym_culture.envs.widgets.wdg_specs import WdgWealth
+from gym_culture.envs.widgets.wdg_wealth import WdgWealth
 
 class PygameDisplay:
     activated = False

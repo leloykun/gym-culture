@@ -83,6 +83,15 @@ class GridWorldEnv(Env):
         
     def get_wrapped_cell(self, x, y):
         return self.grid[y % self.height][x % self.width]
+    
+    def pick_randon_cell(self):
+        while True:
+            x = random.randrange(world.width)
+            y = random.randrange(world.height)
+            cell = self.get_cell(x, y)
+            if not cell.wall and len(cell.agents) < res_count:
+                return cell
+    
     def add_agent(self, agent, cell=None):
         
         pass

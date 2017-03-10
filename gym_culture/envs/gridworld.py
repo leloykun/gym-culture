@@ -83,3 +83,10 @@ class GridWorldEnv(Env):
         
     def getWrappedCell(self, x, y):
         return self.grid[y % self.height][x % self.width]
+        
+    def addAgent(self, agent, cell):
+        pass
+        
+    def removeAgent(self, agent):
+        pass
+    

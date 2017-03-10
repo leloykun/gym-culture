@@ -78,15 +78,15 @@ class GridWorldEnv(Env):
             for i in range(min(fw, len(line))):
                 self.grid[starty + j][startx + i].load(line[i])
         
-    def getCell(self, x, y):
+    def get_cell(self, x, y):
         return self.grid[y][x]
         
-    def getWrappedCell(self, x, y):
+    def get_wrapped_cell(self, x, y):
         return self.grid[y % self.height][x % self.width]
+    def add_agent(self, agent, cell=None):
         
-    def addAgent(self, agent, cell):
         pass
         
-    def removeAgent(self, agent):
+    def remove_agent(self, agent):
         pass
     

@@ -54,6 +54,7 @@ class GridWorldEnv(Env):
         if not self.display.activated:
             self.display.activate(size=30)
             self.display.delay = 1
+        self.display.redraw()
         self.display.update()
     
     def __load(self, map):

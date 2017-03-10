@@ -1,25 +1,39 @@
+import os
+
 import gym
 from gym import Env, spaces
+from gym_culture.envs.cell import Cell
 
-from cell import Cell
+from itertools import count
+
+def genID():
+    for i in count(0):
+        yield i
 
 class GridWorldEnv(Env):
-    def __init__(self, args):
+    def __init__(self, 
+                 map='smallbox3.txt', 
+                 res_count=5,
+                 max_res_amount=100,
+                 def_growth_rate=0.2,
+                 to_color_cells=True):
         
-        self.res_count = args.res_count
-        self.max_res_amount = args.max_res_amount
-        self.def_cell_growth_rate = [args.def_growth_rate] * self.res_count
+        self.map = os.path.dirname(__file__) + "/assets/" + map
+        self.res_count = res_count
+        self.max_res_amount = max_res_amount
+        self.def_cell_growth_rate = [def_growth_rate] * self.res_count
+        self.to_color_cells = to_color_cells
         
-        self.to_color_cells = args.to_color_cells
-        
-        with open(args.map) as f:
-            temp_data = f.readlines()
-        self.height = len(temp_data)
-        self.width = max(len(x.rstrip()) for x in temp_data)
+        self.id = genID()
+
+        with open(self.map) as f:
+            lines = f.readlines()
+        self.height = len(lines)
+        self.width = max(len(line.rstrip()) for line in lines)
         
         self._reset()
         
-        self.__load(map)
+        self.__load(self.map)
         
     def _reset(self):
         self.grid = [[Cell(self, x, y) for x in range(self.width)]
@@ -29,8 +43,13 @@ class GridWorldEnv(Env):
     
     def _step(self, agent, action):
         dir, res = action
+        #  do something
     
-    def _render(self):
+    def _render(self, cell_size=30):
+        print("yolo!")
+        #  use pygame here
+    
+    def __getColor(self, obj):
         pass
     
     def __load(self, map):
@@ -55,9 +74,9 @@ class GridWorldEnv(Env):
         self._reset()
         
         for j in range(fh):
-            line = lines[i]
+            line = lines[j]
             for i in range(min(fw, len(line))):
-                self.grid[start + j][startx + i].load(line[i])
+                self.grid[starty + j][startx + i].load(line[i])
         
     def getCell(self, x, y):
         return self.grid[y][x]

@@ -32,9 +32,6 @@ class GridWorldEnv(Env):
         
         self.id = genID()
         self.display = self.__make_display()
-
-        self.display.activate(size=30)
-        self.display.delay = 1
         
         self._reset()
         
@@ -54,6 +51,9 @@ class GridWorldEnv(Env):
     
     def _render(self, cell_size=30):
         print("yolo!")
+        if not self.display.activated:
+            self.display.activate(size=30)
+            self.display.delay = 1
         self.display.update()
     
     def __load(self, map):

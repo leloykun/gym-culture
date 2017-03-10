@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='gym_culture',
-      version='0.0.12',
+      version='0.0.13',
       author='Franz Louis Cesista',
       packages=['gym_culture', 'gym_culture.envs'],
       package_data = {

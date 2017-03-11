@@ -26,8 +26,7 @@ class Cell():
             self.growthRate = self.world.def_cell_growth_rate
     
     def update(self):
-        if TO_UPDATE_CELLS:
-            for i in range(self.world.res_count):
-                self.resources[i] += self.world.max_res_amount * self.growthRate[i]
-                # normalize
-                self.resources[i] = min(self.resources[i], self.world.max_res_amount)
+        for i in range(self.world.res_count):
+            self.resources[i] += self.world.max_res_amount * self.growthRate[i]
+            # normalize
+            self.resources[i] = min(self.resources[i], self.world.max_res_amount)

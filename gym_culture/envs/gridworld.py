@@ -47,7 +47,11 @@ class GridWorldEnv(Env):
     
     def _step(self, agent, action):
         dir, res = action
-        #  do something
+        
+        agent.work(dir, cell)
+        agent.eat()
+        
+        return agent.calc_state(), agent.calc_reward(), None, None
     
     def _render(self, cell_size=30):
         print("yolo!")

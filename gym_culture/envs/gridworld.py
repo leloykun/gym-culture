@@ -72,7 +72,7 @@ class GridWorldEnv(Env):
             self.remove_agent(agent)
         
         if agent.can_reproduce and agent.meets_birth_crit():
-            self.add_agent(BoltzmannQAgent(self, (self.nearby, self.res_count)))
+            self.new_agent()
             #  give resources to child
             agent.eat(amount=100)
 
@@ -144,6 +144,9 @@ class GridWorldEnv(Env):
             if not cell.wall and len(cell.agents) < self.res_count:
                 return cell
 
+    def new_agent(self):
+        self.add_agent(self.agent_type(self, (self.nearby, self.res_count)))
+                
     def add_agent(self, agent, cell=None):
         if cell is None:
             cell = self.pick_randon_cell()

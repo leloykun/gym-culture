@@ -14,6 +14,7 @@ def genID():
 
 
 class GridWorldEnv(Env):
+
     def __init__(self,
                  map='smallbox3.txt',
                  res_count=5,

@@ -23,8 +23,8 @@ class PygameDisplay:
         if PygameDisplay.screen is None \
                 or PygameDisplay.screen.get_width() != w \
                 or PygameDisplay.screen.get_height() != h:
-            PygameDisplay.screen = pygame.display.set_mode(
-                (w, h), pygame.RESIZABLE, 32)
+            PygameDisplay.screen = pygame.display.set_mode((w, h),
+                                                           pygame.RESIZABLE, 32)
         self.activated = True
         self.defaultColour = (255, 255, 255)
         #self.defaultColour = self.getColour(self.world.grid[0][0].__class__())

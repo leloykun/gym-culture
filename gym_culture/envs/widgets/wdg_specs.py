@@ -3,6 +3,7 @@ import pylab as pl
 
 
 class WdgSpecs():
+
     @classmethod
     def display(cls, agents, age):
         data = []

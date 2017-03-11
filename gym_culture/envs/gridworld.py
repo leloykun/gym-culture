@@ -23,7 +23,11 @@ class GridWorldEnv(Env):
                  to_color_cells=True,
                  agent_color_code=[
                      '#332532', '#644D52', '#F77A52', '#FF974F', '#A49A87'
-                 ]):
+                 ],
+                 nearby=[(0, -1), (1, 0), (0, 1), (-1, 0), (0, 0)],
+                 agents_can_trade=True,
+                 agents_can_die=True,
+                 agents_can_reproduce=True):
 
         self.map = os.path.dirname(__file__) + "/assets/" + map
         self.res_count = res_count
@@ -31,7 +35,11 @@ class GridWorldEnv(Env):
         self.def_cell_growth_rate = [def_growth_rate] * self.res_count
         self.to_color_cells = to_color_cells
         self.agent_color_code = agent_color_code
-
+        self.nearby = nearby
+        self.agents_can_trade = agents_can_trade
+        self.agents_can_die = agents_can_die
+        self.agents_can_reproduce = agents_can_reproduce
+        
         with open(self.map) as f:
             lines = f.readlines()
         self.height = len(lines)
@@ -62,6 +70,17 @@ class GridWorldEnv(Env):
         agent.eat()
 
         agent.color = self.agent_color_code[agent.get_spec()]
+        
+        if self.agents_can_trade:
+            agent.trade()
+        
+        if self.agents_can_die and agent.meets_death_crit():
+            self.remove_agent(agent)
+        
+        if self.agents_can_reproduce and agent.meets_birth_crit():
+            self.add_agent(BoltzmannQAgent(self, (self.nearby, self.res_count)))
+            #  give resources to child
+            agent.eat(amount=100)
 
         return agent.calc_state(), agent.calc_reward(), None, None
 

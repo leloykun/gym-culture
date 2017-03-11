@@ -17,13 +17,15 @@ class GridWorldEnv(Env):
                  res_count=5,
                  max_res_amount=100,
                  def_growth_rate=0.2,
-                 to_color_cells=True):
+                 to_color_cells=True,
+                 agent_color_code=['#332532', '#644D52', '#F77A52', '#FF974F', '#A49A87']):
         
         self.map = os.path.dirname(__file__) + "/assets/" + map
         self.res_count = res_count
         self.max_res_amount = max_res_amount
         self.def_cell_growth_rate = [def_growth_rate] * self.res_count
         self.to_color_cells = to_color_cells
+        self.agent_color_code = agent_color_code
         
         with open(self.map) as f:
             lines = f.readlines()
@@ -53,6 +55,8 @@ class GridWorldEnv(Env):
         
         agent.work(cell, res)
         agent.eat()
+        
+        agent.color = self.agent_color_code[agent.get_spec()]
         
         return agent.calc_state(), agent.calc_reward(), None, None
     

@@ -48,7 +48,9 @@ class GridWorldEnv(Env):
     def _step(self, agent, action):
         dir, res = action
         
-        agent.work(dir, cell)
+        cell = self.get_wrapped_cell(agent.cell.x + dir[0], 
+                                     agent.cell.y + dir[1])
+        
         agent.work(cell, res)
         agent.eat()
         

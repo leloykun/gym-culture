@@ -111,6 +111,10 @@ class GridWorldEnv(Env):
     def get_wrapped_cell(self, x, y):
         return self.grid[y % self.height][x % self.width]
     
+    def get_cell_in_dir(self, agent, dir):
+        return self.get_wrapped_cell(agent.cell.x + dir[0], 
+                                     agent.cell.y + dir[1])
+    
     def pick_randon_cell(self):
         while True:
             x = random.randrange(self.width)

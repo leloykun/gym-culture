@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='gym_culture',
-      version='0.0.3.1',
+      version='0.4.0',
       url='https://github.com/LE-LOY/gym-culture',
       author='Franz Louis Cesista',
       license='MIT',

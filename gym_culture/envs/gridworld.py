@@ -49,6 +49,7 @@ class GridWorldEnv(Env):
         dir, res = action
         
         agent.work(dir, cell)
+        agent.work(cell, res)
         agent.eat()
         
         return agent.calc_state(), agent.calc_reward(), None, None

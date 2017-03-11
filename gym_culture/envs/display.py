@@ -6,6 +6,7 @@ import pygame
 from gym_culture.envs.widgets.wdg_specs import WdgSpecs
 from gym_culture.envs.widgets.wdg_wealth import WdgWealth
 
+
 class PygameDisplay:
     activated = False
     paused = False
@@ -22,7 +23,8 @@ class PygameDisplay:
         if PygameDisplay.screen is None \
                 or PygameDisplay.screen.get_width() != w \
                 or PygameDisplay.screen.get_height() != h:
-            PygameDisplay.screen = pygame.display.set_mode((w, h), pygame.RESIZABLE, 32)
+            PygameDisplay.screen = pygame.display.set_mode(
+                (w, h), pygame.RESIZABLE, 32)
         self.activated = True
         self.defaultColour = (255, 255, 255)
         #self.defaultColour = self.getColour(self.world.grid[0][0].__class__())
@@ -144,7 +146,7 @@ class PygameDisplay:
         if filename is None:
             filename = 'animations/test/' + '%03d.png' % (self.world.age + 1)
         pygame.image.save(self.screen, filename)
-    
+
     def make_title(self):
         text = 'age: %d' % self.world.age
         extra = []
@@ -157,4 +159,4 @@ class PygameDisplay:
 
         if len(extra) > 0:
             text += ' [%s]' % ', '.join(extra)
-        return text             
+        return text

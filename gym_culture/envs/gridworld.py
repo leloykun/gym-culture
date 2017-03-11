@@ -7,38 +7,42 @@ from gym import Env, spaces
 from gym_culture.envs.cell import Cell
 from gym_culture.envs.display import PygameDisplay
 
+
 def genID():
     for i in count(0):
         yield i
 
+
 class GridWorldEnv(Env):
-    def __init__(self, 
-                 map='smallbox3.txt', 
+    def __init__(self,
+                 map='smallbox3.txt',
                  res_count=5,
                  max_res_amount=100,
                  def_growth_rate=0.2,
                  to_color_cells=True,
-                 agent_color_code=['#332532', '#644D52', '#F77A52', '#FF974F', '#A49A87']):
-        
+                 agent_color_code=[
+                     '#332532', '#644D52', '#F77A52', '#FF974F', '#A49A87'
+                 ]):
+
         self.map = os.path.dirname(__file__) + "/assets/" + map
         self.res_count = res_count
         self.max_res_amount = max_res_amount
         self.def_cell_growth_rate = [def_growth_rate] * self.res_count
         self.to_color_cells = to_color_cells
         self.agent_color_code = agent_color_code
-        
+
         with open(self.map) as f:
             lines = f.readlines()
         self.height = len(lines)
         self.width = max(len(line.rstrip()) for line in lines)
-        
+
         self.id = genID()
         self.display = self.__make_display()
-        
+
         self._reset()
-        
+
         self.__load(self.map)
-        
+
     def _reset(self):
         self.grid = [[self.__make_cell(x, y) for x in range(self.width)]
                      for y in range(self.height)]
@@ -46,20 +50,20 @@ class GridWorldEnv(Env):
                            for y in range(self.height)]
         self.agents = []
         self.age = 0
-    
+
     def _step(self, agent, action):
         dir, res = action
-        
-        cell = self.get_wrapped_cell(agent.cell.x + dir[0], 
+
+        cell = self.get_wrapped_cell(agent.cell.x + dir[0],
                                      agent.cell.y + dir[1])
-        
+
         agent.work(cell, res)
         agent.eat()
-        
+
         agent.color = self.agent_color_code[agent.get_spec()]
-        
+
         return agent.calc_state(), agent.calc_reward(), None, None
-    
+
     def _render(self, cell_size=30):
         print("yolo!")
         if not self.display.activated:
@@ -67,14 +71,14 @@ class GridWorldEnv(Env):
             self.display.delay = 1
         self.display.redraw()
         self.display.update()
-    
+
     def __load(self, map):
         with open(map) as f:
             lines = f.readlines()
         lines = [line.rstrip() for line in lines]
         fh = len(lines)
         fw = max(len(line) for line in lines)
-        
+
         if fh > self.height:
             fh = self.height
             starty = 0
@@ -85,40 +89,39 @@ class GridWorldEnv(Env):
             startx = 0
         else:
             startx = (self.width - fw) // 2
-            
+
         #  just in case
         self._reset()
-        
+
         for j in range(fh):
             line = lines[j]
             for i in range(min(fw, len(line))):
                 self.grid[starty + j][startx + i].load(line[i])
-    
+
     def __make_display(self):
         d = PygameDisplay()
         d.world = self
         return d
-    
+
     def __make_cell(self, x, y):
         c = Cell()
         c.x = x
         c.y = y
-        c.resources = [self.max_res_amount 
-                       for _ in range(self.res_count)]
+        c.resources = [self.max_res_amount for _ in range(self.res_count)]
         c.world = self
         c.agents = []
         return c
-    
+
     def get_cell(self, x, y):
         return self.grid[y][x]
-        
+
     def get_wrapped_cell(self, x, y):
         return self.grid[y % self.height][x % self.width]
-    
+
     def get_cell_in_dir(self, agent, dir):
-        return self.get_wrapped_cell(agent.cell.x + dir[0], 
+        return self.get_wrapped_cell(agent.cell.x + dir[0],
                                      agent.cell.y + dir[1])
-    
+
     def pick_randon_cell(self):
         while True:
             x = random.randrange(self.width)
@@ -126,17 +129,16 @@ class GridWorldEnv(Env):
             cell = self.get_cell(x, y)
             if not cell.wall and len(cell.agents) < self.res_count:
                 return cell
-    
+
     def add_agent(self, agent, cell=None):
         if cell is None:
             cell = self.pick_randon_cell()
-        
+
         self.agents.append(agent)
         agent.env = self
         agent.id = next(self.id)
         agent.cell = cell
-        
+
     def remove_agent(self, agent):
         self.agents.remove(agent)
         agent.cell.agents.remove(agent)
-    

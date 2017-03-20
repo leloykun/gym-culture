@@ -144,8 +144,8 @@ class GridWorldEnv(Env):
             if not cell.wall and len(cell.agents) < self.res_count:
                 return cell
 
-    def new_agent(self):
-        self.add_agent(self.agent_type(self, (self.nearby, self.res_count)))
+    def new_agent(self, agent_type):
+        self.add_agent(agent_type(self, (self.nearby, self.res_count)))
                 
     def add_agent(self, agent, cell=None):
         if cell is None:
